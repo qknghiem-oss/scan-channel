@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Landschaft 2026 — Eine Lesereise durch den Everlast AI Channel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">📖</span>
+    <div>
+      <h1>KI-Landschaft 2026</h1>
+      <p class="subtitle">Eine Lesereise durch den Everlast AI Channel · 12 Kapitel · 39 Sektionen · 45 Quellvideos</p>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <input id="search" type="search" placeholder="🔎 Suche im Buch und in Transkripten…" autocomplete="off">
+  </div>
+  <button id="update-button" class="sync-btn" title="Channel scannen + Buch + Site + Concept-Index neu bauen" onclick="startUpdate()">
+    <span class="sync-icon">⟳</span>
+    <span class="sync-label">Update</span>
+    <span class="sync-meta" id="sync-meta">noch nie</span>
+  </button>
+  <button id="synthesize-button" class="sync-btn synthesize-btn" title="Offene Deep Dives + neue Sektionen synthetisieren (Phase 2)" onclick="startSynthesize()">
+    <span class="sync-icon">✨</span>
+    <span class="sync-label">Synthese</span>
+    <span class="sync-meta" id="synth-meta">—</span>
+  </button>
+  <button id="scheduler-button" class="sync-btn scheduler-btn" title="Automatik: täglich Sync, wöchentlich Buch-Erneuerung via Ollama" onclick="showSchedulerLog()">
+    <span class="sync-icon">🤖</span>
+    <span class="sync-label">Automatik</span>
+    <span class="sync-meta" id="scheduler-meta">—</span>
+  </button>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-view="book">📖 Wissensbuch</button>
+  <button class="tab" data-view="paths">🎯 Lesepfade</button>
+  <button class="tab" data-view="concepts">🕸️ Konzept-Wiki</button>
+  <button class="tab" data-view="deepdive">🔍 Deep Dive <span class="badge" id="dd-badge" hidden>0</span></button>
+  <button class="tab" data-view="praxis">🛠 Praxis <span class="badge" id="praxis-badge" hidden>0</span></button>
+  <button class="tab" data-view="timeline">📅 Timeline</button>
+  <button class="tab" data-view="library">📺 Quellen-Bibliothek</button>
+</nav>
+
+<main id="main">
+
+  <!-- WISSENSBUCH -->
+  <section id="view-book" class="view active book-view">
+    <aside class="book-sidebar" id="book-sidebar">
+      <div class="book-toc-header">
+        <strong>Inhaltsverzeichnis</strong>
+        <span class="progress-badge" id="progress-badge">0/39</span>
+      </div>
+      <nav id="book-toc"></nav>
+    </aside>
+
+    <article class="book-content" id="book-content">
+      <div class="book-welcome" id="book-welcome">
+        <h1>KI-Landschaft 2026</h1>
+        <p class="lead">Drei Monate. 45 Videos. 12 Kapitel. Eine zusammenhängende Lesereise durch den deutschsprachigen Everlast-AI-Channel von Leonard Schmedding — verdichtet aus Stunden Transkript zu lesbaren Lehrartikeln, die du in einer Sitzung von 30 Minuten oder einem Wochenende durchgehen kannst.</p>
+        <p>Du musst kein Video schauen, um diesem Buch zu folgen. Jede Behauptung ist mit Zeitstempel zur Quelle verlinkt — wenn dich etwas tiefer interessiert, springst du mit einem Klick zur exakten Stelle im Original-Video.</p>
+
+        <div class="welcome-stats">
+          <div><strong id="ws-words">—</strong><span>Wörter</span></div>
+          <div><strong id="ws-quotes">—</strong><span>Zitate mit Quelle</span></div>
+          <div><strong id="ws-readmin">—</strong><span>Min Lesezeit</span></div>
+          <div><strong>45</strong><span>Quellvideos</span></div>
+        </div>
+
+        <h2>Wie nutzt du das Buch?</h2>
+        <ol>
+          <li><strong>Vorne anfangen.</strong> Kapitel 1 ist die Standortbestimmung — danach kannst du linear lesen.</li>
+          <li><strong>Lesepfaden folgen.</strong> Im Tab oben findest du kuratierte Mini-Reisen ("Schnell-Einstieg 30 Min", "Claude Code Mastery", etc.).</li>
+          <li><strong>Themen-Cluster nutzen.</strong> Cross-References [[wie diese hier]] springen direkt zur passenden Sektion.</li>
+          <li><strong>Quellen prüfen.</strong> Am Ende jeder Sektion siehst du die Quell-Videos und kannst mit einem Klick im Player springen.</li>
+        </ol>
+
+        <p class="cta">→ Beginne mit <a href="#" onclick="loadSection('1.1');return false">Sektion 1.1: Was sich in 90 Tagen geändert hat</a></p>
+      </div>
+    </article>
+
+    <aside class="book-aside" id="book-aside" hidden>
+      <div class="book-marginalia" id="book-marginalia" hidden></div>
+      <h3>📺 Quellen dieser Sektion</h3>
+      <div id="book-sources"></div>
+      <h3>🔗 Verwandtes Wissen</h3>
+      <div id="book-related"></div>
+    </aside>
+  </section>
+
+  <!-- LESEPFADE -->
+  <section id="view-paths" class="view">
+    <h2 class="section-title">🎯 Kuratierte Lesepfade</h2>
+    <p class="hint" style="margin-bottom:24px">Wenn du nicht alles linear lesen willst — folge einem der vorgeschlagenen Pfade.</p>
+    <div id="paths-grid" class="paths-grid"></div>
+  </section>
+
+  <!-- KONZEPT-WIKI -->
+  <section id="view-concepts" class="view">
+    <h2 class="section-title">🕸️ Konzept-Netz</h2>
+    <p class="hint" style="margin-bottom:16px">Jeder Knoten = ein Konzept aus dem Buch · Klick zeigt alle Sektionen + Videos zum Thema.</p>
+    <div class="card wide" style="padding:0">
+      <svg id="graph" width="100%" height="640"></svg>
+    </div>
+  </section>
+
+  <!-- DEEP DIVE -->
+  <section id="view-deepdive" class="view">
+    <div class="dd-header">
+      <h2 class="section-title">🔍 Deep Dive</h2>
+      <p class="hint">Tiefenanalyse auf Themen, Personen und Tools — mit Buch-Sektion, Zeitverlauf, externer Recherche und Audio.</p>
+    </div>
+    <nav class="dd-subtabs">
+      <button class="dd-subtab active" data-subview="generated">📚 Fertige (<span id="dd-count-generated">0</span>)</button>
+      <button class="dd-subtab" data-subview="pending">⏳ Vorgemerkt (<span id="dd-count-pending">0</span>)</button>
+      <button class="dd-subtab" data-subview="per-video">📹 Pro Video (<span id="dd-count-per-video">0</span>)</button>
+      <button class="dd-subtab" data-subview="dashboard">📊 Dashboard</button>
+    </nav>
+    <div id="dd-subview-generated" class="dd-subview active">
+      <div id="dd-generated-grid" class="dd-grid"></div>
+    </div>
+    <div id="dd-subview-pending" class="dd-subview">
+      <div id="dd-pending-list"></div>
+    </div>
+    <div id="dd-subview-per-video" class="dd-subview">
+      <p class="hint" style="margin-bottom: 16px">Tiefenanalyse pro einzelnem Video — basierend auf Transkript + Thumbnail + Kapitel.</p>
+      <div id="pv-tabs" class="dd-subtabs" style="margin-bottom: 16px">
+        <button class="dd-subtab active" data-pv="generated">✅ Fertige (<span id="pv-count-gen">0</span>)</button>
+        <button class="dd-subtab" data-pv="pending">⏳ Vorgemerkt (<span id="pv-count-pend">0</span>)</button>
+      </div>
+      <div id="pv-generated-list" class="dd-grid"></div>
+      <div id="pv-pending-list" style="display:none"></div>
+    </div>
+    <div id="dd-subview-dashboard" class="dd-subview">
+      <div class="dd-dashboard-selector">
+        <label>Topic auswählen: </label>
+        <select id="dd-dashboard-select">
+          <option value="">— bitte wählen —</option>
+        </select>
+      </div>
+      <div id="dd-dashboard-content"></div>
+    </div>
+  </section>
+
+  <!-- PRAXIS -->
+  <section id="view-praxis" class="view">
+    <div class="praxis-header">
+      <h2>🛠 Praxis-Wissen</h2>
+      <p class="hint">Konkrete Handlungsempfehlungen aus allen Videos — was du jetzt umsetzen kannst.</p>
+
+      <!-- Use-Case-Suche -->
+      <div class="usecase-search-bar">
+        <div class="usecase-input-wrap">
+          <span class="usecase-icon">🔎</span>
+          <input type="text" id="usecase-input" placeholder="Was willst du umsetzen? z.B. „E-Mails automatisch schreiben" oder „Angebote automatisieren"" />
+          <button id="usecase-btn" class="usecase-submit-btn">Anwenden</button>
+        </div>
+        <div class="usecase-examples">
+          <span>z.B.:</span>
+          <button class="usecase-ex" data-q="E-Mails automatisch schreiben">E-Mails automatisieren</button>
+          <button class="usecase-ex" data-q="Angebote erstellen mit KI">Angebote erstellen</button>
+          <button class="usecase-ex" data-q="Claude Code einsetzen im Unternehmen">Claude Code im Unternehmen</button>
+          <button class="usecase-ex" data-q="Workflow mit KI-Agenten aufbauen">KI-Workflow aufbauen</button>
+        </div>
+      </div>
+      <!-- Such-Ergebnisse -->
+      <div id="usecase-results" class="usecase-results" hidden></div>
+
+      <div class="praxis-filter-bar">
+        <button class="praxis-cat-btn active" data-cat="">Alle <span id="praxis-count-all">0</span></button>
+        <button class="praxis-cat-btn" data-cat="tool">🔧 Tools <span id="praxis-count-tool">0</span></button>
+        <button class="praxis-cat-btn" data-cat="technik">⚙️ Technik <span id="praxis-count-technik">0</span></button>
+        <button class="praxis-cat-btn" data-cat="workflow">🔄 Workflow <span id="praxis-count-workflow">0</span></button>
+        <button class="praxis-cat-btn" data-cat="framework">🏗️ Framework <span id="praxis-count-framework">0</span></button>
+        <button class="praxis-cat-btn" data-cat="mindset">💡 Mindset <span id="praxis-count-mindset">0</span></button>
+      </div>
+      <div class="praxis-topic-filter">
+        <label>Thema:</label>
+        <select id="praxis-topic-select">
+          <option value="">Alle Themen</option>
+        </select>
+      </div>
+    </div>
+    <div id="praxis-grid" class="praxis-grid"></div>
+    <div id="praxis-empty" class="praxis-empty" hidden>
+      <p>Noch keine Praxis-Items vorhanden. Führe <code>python scripts/18_extract_praxis.py</code> aus.</p>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="view-timeline" class="view">
+    <div class="card wide">
+      <h2>📅 90 Tage Timeline</h2>
+      <p class="hint">Wann ist welches Video erschienen? Farbe = Kategorie · Klick = Modal.</p>
+      <div id="timeline" class="timeline"></div>
+    </div>
+  </section>
+
+  <!-- QUELLEN-BIBLIOTHEK -->
+  <section id="view-library" class="view">
+    <p class="hint" style="margin-bottom:16px">Alle 45 Quell-Videos, durchsuchbar und gefiltert.</p>
+    <div class="filter-bar">
+      <select id="filter-category">
+        <option value="">Alle Kategorien</option>
+      </select>
+      <select id="filter-sort">
+        <option value="date">Sortierung: Neueste</option>
+        <option value="score">Sortierung: Score</option>
+        <option value="views">Sortierung: Views</option>
+      </select>
+      <span class="result-count" id="result-count">— Videos</span>
+    </div>
+    <div id="library-grid" class="library-grid"></div>
+  </section>
+
+</main>
+
+<!-- UPDATE PROGRESS MODAL (Phasen-Tracker) -->
+<div id="update-modal" class="modal" hidden>
+  <div class="modal-overlay" data-close-update></div>
+  <article class="modal-content update-modal-content">
+    <button class="modal-close" data-close-update>✕</button>
+    <h2>⟳ Channel-Update — volle Pipeline</h2>
+    <p class="update-subtitle">Scannt den Channel, lädt neue Transkripte, baut Buch + Site + Concept-Index neu.</p>
+    <ol id="update-phases" class="update-phases"></ol>
+    <div id="update-current" class="update-current"></div>
+    <div id="update-result"></div>
+  </article>
+</div>
+
+<!-- SYNTHESIZE MODAL (Stub) -->
+<div id="synthesize-modal" class="modal" hidden>
+  <div class="modal-overlay" data-close-synth></div>
+  <article class="modal-content synthesize-modal-content">
+    <button class="modal-close" data-close-synth>✕</button>
+    <h2>✨ Synthese-Queue</h2>
+    <p class="update-subtitle">Was steht synthese-bereit in der Pipeline? (Phase 2 — Backend-Agent-Spawning folgt)</p>
+    <div id="synthesize-list"></div>
+    <div id="synthesize-result"></div>
+  </article>
+</div>
+
+<!-- SCHEDULER MODAL -->
+<div id="scheduler-modal" class="modal" hidden>
+  <div class="modal-overlay" onclick="document.getElementById('scheduler-modal').hidden=true"></div>
+  <article class="modal-content synthesize-modal-content">
+    <button class="modal-close" onclick="document.getElementById('scheduler-modal').hidden=true">✕</button>
+    <h2>🤖 Automatik-Protokoll</h2>
+    <p class="update-subtitle">Täglich 02:00 Uhr: Sync neuer Videos &nbsp;|&nbsp; Sonntags 03:00 Uhr: Buch-Erneuerung via Ollama</p>
+    <div id="scheduler-state" style="margin-bottom:12px;font-size:0.85em;color:var(--muted)"></div>
+    <div id="scheduler-log-list" style="max-height:400px;overflow-y:auto"></div>
+  </article>
+</div>
+
+<!-- VIDEO MODAL -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-overlay" data-close></div>
+  <article class="modal-content">
+    <button class="modal-close" data-close>✕</button>
+    <div id="modal-body"></div>
+  </article>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

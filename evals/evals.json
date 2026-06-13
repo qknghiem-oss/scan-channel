@@ -1,0 +1,65 @@
+{
+  "skill_name": "scan-channel",
+  "version": "1.0.0",
+  "description": "Eval-Cases für den scan-channel Skill",
+  "evals": [
+    {
+      "id": 1,
+      "name": "Phase 1 — Channel-Scan minimal",
+      "prompt": "Scanne den YouTube-Channel https://www.youtube.com/@everlastai/videos und baue ein Wissensbuch für die letzten 30 Tage.",
+      "expected_behavior": "Skill erkennt Trigger, ruft Phase 1 auf, fragt nach Output-Verzeichnis falls nicht im Prompt, startet 00_init_channel + Pipeline.",
+      "expectations": [
+        "channel.config.json wird erstellt",
+        "videos_full.json hat ≥5 Videos",
+        "_book.json mit ≥3 Kapiteln entsteht",
+        "Mindestens 10 Sektionen werden synthetisiert"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Phase 2 — Deep Dive auf Konzept",
+      "prompt": "Mache einen Deep Dive auf 'Agentic Workflows' im aktuellen Wissensbuch.",
+      "expected_behavior": "Skill erstellt Bookmark (oder erkennt existierende), ruft 09_deep_dive.py auf, spawnt Agent mit WebSearch.",
+      "expectations": [
+        "sections/dd-agentic-workflows.md wird erstellt",
+        "Datei hat ≥2000 Wörter",
+        "Mindestens 5 Channel-Zitate enthalten",
+        "Mindestens 2 externe URLs in Sources",
+        "_book.json wird erweitert um Kapitel 13"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Phase 2 — Alle pending abarbeiten",
+      "prompt": "Generiere die offenen Deep Dives.",
+      "expected_behavior": "Skill liest pending/, arbeitet alle der Reihe nach ab.",
+      "expectations": [
+        "data/deep_dives/pending/ ist anschließend leer",
+        "Pro Bookmark eine neue dd-*.md existiert",
+        "06_assemble_book.py läuft ohne Issues durch"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Trigger-Erkennung im natürlichen Chat",
+      "prompt": "Ich würde gerne wissen, was auf dem deutschen KI-YouTube-Channel @kibubble in den letzten Wochen so läuft.",
+      "expected_behavior": "Skill erkennt impliziten Channel-Scan-Wunsch und schlägt Phase 1 vor (statt zu schweigen).",
+      "expectations": [
+        "Skill schlägt 'Channel scannen' vor",
+        "Skill fragt nach Zeitraum (Default 30 Tage)",
+        "Skill fragt nach Output-Verzeichnis"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Refactoring-Check: Channel-Agnostik",
+      "prompt": "Funktioniert der Skill auch mit einem englischsprachigen Channel wie @lexfridman?",
+      "expected_behavior": "Skill antwortet: aktuell deutschsprachig optimiert, aber technisch möglich. Welche Änderungen nötig sind.",
+      "expectations": [
+        "Skill erklärt: Transkript-Sprache muss in channel.config.json auf 'en' gesetzt werden",
+        "Skill erklärt: known_entities sind initial leer und werden über Zeit befüllt",
+        "Skill warnt: TTS bleibt deutsch-optimiert"
+      ]
+    }
+  ]
+}

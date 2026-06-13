@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Data (channel-specific, not part of skill template)
+data/
+*.json.bak
+
+# Environment / secrets
+.env
+.env.*
+
+# Audio cache (large, channel-specific)
+audio_cache/
+
+# Test artifacts
+test_screenshots/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
