@@ -1,0 +1,55 @@
+{
+  "_meta": {
+    "title": "[[CHANNEL_NAME]] Wissensbuch [[YEAR]]",
+    "subtitle": "Eine Lesereise durch das Wissen von [[HANDLE]]",
+    "generated_at": "[[GENERATED_AT]]",
+    "total_sections": 0,
+    "total_words": 0,
+    "total_quotes": 0,
+    "style": "narrativ-erzaehlend"
+  },
+  "reading_paths": [
+    {
+      "id": "schnell-einstieg",
+      "title": "Schnell-Einstieg",
+      "description": "Die 5 wichtigsten Sektionen für einen ersten Überblick",
+      "sections": [],
+      "duration_min": 25
+    },
+    {
+      "id": "vollständig",
+      "title": "Vollständige Lesereise",
+      "description": "Alle Sektionen von Anfang bis Ende",
+      "sections": "all",
+      "duration_min": 0
+    }
+  ],
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Kapitel 1 — [[THEMA_1]]",
+      "sections": [
+        {
+          "id": "1.1",
+          "title": "[[SEKTION_TITEL]]",
+          "file": "1.1.md",
+          "briefing": "[[BRIEFING_STICHPUNKTE]]"
+        }
+      ]
+    }
+  ],
+  "_instructions": {
+    "usage": "Dieses Skeleton als Vorlage für _book.json verwenden.",
+    "placeholders": {
+      "[[CHANNEL_NAME]]": "Name des YouTube-Channels",
+      "[[HANDLE]]": "@handle des Channels",
+      "[[YEAR]]": "Aktuelles Jahr",
+      "[[GENERATED_AT]]": "ISO-Timestamp der Generierung",
+      "[[THEMA_X]]": "Kapitel-Titel aus Topic-Clustering",
+      "[[SEKTION_TITEL]]": "Sektion-Titel",
+      "[[BRIEFING_STICHPUNKTE]]": "Bullet-Points für Agent-Briefing"
+    },
+    "topic_clustering": "Lies references/topic_clustering_pattern.md für den Clustering-Workflow",
+    "target_structure": "10-15 Kapitel × 3-5 Sektionen = 35-50 Sektionen gesamt"
+  }
+}

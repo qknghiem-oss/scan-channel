@@ -1,0 +1,61 @@
+{
+  "channel_url": "https://www.youtube.com/@everlastai/videos",
+  "channel_name": "Everlast AI",
+  "handle": "@everlastai",
+  "language": "de",
+  "days_back": 90,
+  "category_keywords": {
+    "claude": ["claude", "anthropic", "opus", "sonnet", "haiku", "mythos", "colossus"],
+    "agents": ["agent", "agentic", "subagent", "hive mind", "codex", "workflow"],
+    "interview": ["interview", "im gespräch", "prof.", "dr."],
+    "robotik": ["roboter", "humanoid", "tesla", "optimus", "robotik", "robotergym", "neuromorphic", "nvidia"],
+    "business": ["business", "geschäft", "umsatz", "post-labor", "deindustriali", "wirtschaft", "ökonomie"],
+    "google-openai": ["gpt", "openai", "gemini", "google", "gemma", "imagegen", "spud"],
+    "tools": ["tool", "stack", "lokale ki", "installieren", "wissensdatenbank", "voicely", "wispr"],
+    "geopolitik": ["china", "europa", "huawei", "geopoliti", "involution"]
+  },
+  "known_entities": {
+    "people": [
+      "Leonard Schmedding", "Dario Amodei", "Sam Altman", "Elon Musk",
+      "Joscha Bach", "Daniel Cremers", "Sven Gabor Janszky", "Frank Sieren",
+      "Lars Hinrichs", "Niels Birbaumer", "Adrian Locher", "Alois Knoll",
+      "Achim Lilienthal", "Oliver Bendel", "Pero Micic", "Thomas Zurbuchen",
+      "Jörg Wuttke", "Alexander König", "Robert Vogel", "Jenny Seidenschwarz",
+      "Anne Greul", "Stefan Faistenauer", "Felix Urban", "Maximilian Rolf",
+      "Jürgen Kocka", "Andreas Moring", "Lutz Keppeler", "Magnus Müller",
+      "Mark Müller", "Oliver Trabert", "Dr. Johann Rehberger"
+    ],
+    "tools": [
+      "Claude Code", "Claude Opus", "Claude Sonnet", "Claude Haiku",
+      "ChatGPT", "GPT-5.5", "GPT-5", "Codex", "Cursor", "Copilot",
+      "Gemini", "Gemma", "Llama", "Mistral",
+      "n8n", "Zapier", "Make", "Notion", "Obsidian",
+      "Subagents", "Managed Agents", "Skills", "MCP",
+      "Stitch", "AutoDream", "Browser Use", "Voicely", "Wispr Flow",
+      "Dynamic Workflows", "UltraCode", "Agent View", "Fast Mode",
+      "ImageGen", "Sora", "Veo", "Kling", "Suno", "HeyGen",
+      "Mythos", "Spud", "Kairos", "Goal"
+    ],
+    "companies": [
+      "Anthropic", "OpenAI", "Google", "Microsoft", "Meta", "Apple",
+      "Tesla", "xAI", "Nvidia", "Huawei", "Alibaba",
+      "Everlast AI", "Mistral", "DeepMind",
+      "Octonomy AI", "Invitris AI", "Mirelo AI", "goodBytz", "Neura Robotics",
+      "Terafab", "Browser Use", "Odyssey"
+    ],
+    "concepts": [
+      "Knowledge Graph", "RAG", "Embedding", "Fine-Tuning", "Prompt",
+      "Agent", "Agentic Workflows", "Subagents", "Managed Agents", "Hive Mind",
+      "Vibe Coding", "Agentic Coding",
+      "Post-Labor Economy", "Singularität", "AGI", "Superintelligenz",
+      "Weltmodell", "Multi-Agent", "Reasoning",
+      "Deindustrialisierung", "Humanoide", "Roboter",
+      "Memory-Hack", "Neuromorphic Computing", "BCI", "Quantencomputing"
+    ]
+  },
+  "book_meta": {
+    "title": "Everlast AI Wissensbuch 2026",
+    "subtitle": "Eine Lesereise durch das KI-Wissen von @everlastai",
+    "style": "narrativ-erzaehlend"
+  }
+}

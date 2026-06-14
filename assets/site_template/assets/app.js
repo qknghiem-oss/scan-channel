@@ -1295,7 +1295,7 @@ function renderDashboard(data) {
 
     <div class="dd-dash-grid">
       <div class="dd-panel full">
-        <h3>📅 Zeitverlauf</h3>
+        <h3>📅 Zeitverlauf <span class="dd-panel-sub">(Kreisgrößen = Views)</span></h3>
         <svg id="dd-timeline-svg"></svg>
       </div>
 
@@ -1305,11 +1305,19 @@ function renderDashboard(data) {
       </div>
 
       <div class="dd-panel">
-        <h3>🔗 Verwandte Konzepte</h3>
-        <div class="dd-tools" id="dd-related"></div>
+        <h3>👥 Personen</h3>
+        <div class="dd-tools" id="dd-people"></div>
 
         <h3 style="margin-top: 20px">🛠 Tools</h3>
         <div class="dd-tools" id="dd-tools"></div>
+
+        <h3 style="margin-top: 20px">🔗 Verwandte Konzepte</h3>
+        <div class="dd-tools" id="dd-related"></div>
+      </div>
+
+      <div class="dd-panel full" id="dd-quotes-panel" style="display:none">
+        <h3>💬 Zitate aus Videos</h3>
+        <div id="dd-quotes-list"></div>
       </div>
     </div>
   `;
@@ -1317,6 +1325,8 @@ function renderDashboard(data) {
   renderDashboardSections(data);
   renderDashboardTimeline(data);
   renderDashboardRelated(data);
+  renderDashboardPeople(data);
+  renderDashboardQuotes(data);
 }
 
 function renderDashboardSections(data) {
@@ -1409,6 +1419,53 @@ function renderDashboardRelated(data) {
   if ((data.tools || []).length === 0) {
     tools.innerHTML = `<span style="color: var(--text-muted); font-size: 12px;">Keine Tool-Verbindungen.</span>`;
   }
+}
+
+function renderDashboardPeople(data) {
+  const root = document.getElementById("dd-people");
+  if (!root) return;
+  const people = data.people || [];
+  if (people.length === 0) {
+    root.innerHTML = `<span style="color: var(--text-muted); font-size: 12px;">Keine Personen-Verbindungen.</span>`;
+    return;
+  }
+  root.innerHTML = "";
+  people.slice(0, 8).forEach(p => {
+    const chip = document.createElement("span");
+    chip.className = "dd-person-chip";
+    chip.style.borderLeftColor = "#10b981";
+    chip.textContent = `${p.label} (${p.video_count}v)`;
+    root.appendChild(chip);
+  });
+}
+
+function renderDashboardQuotes(data) {
+  const panel = document.getElementById("dd-quotes-panel");
+  const root = document.getElementById("dd-quotes-list");
+  if (!panel || !root) return;
+  const videos = (data.videos || []).filter(v => v.first_mention_seconds != null).slice(0, 5);
+  if (videos.length === 0) return;
+  panel.style.display = "";
+  root.innerHTML = "";
+  videos.forEach(v => {
+    const sec = v.first_mention_seconds || 0;
+    const mm = String(Math.floor(sec / 60)).padStart(2, "0");
+    const ss = String(sec % 60).padStart(2, "0");
+    const item = document.createElement("div");
+    item.className = "dd-quote-item";
+    item.innerHTML = `
+      <div class="dd-quote-meta">
+        <strong>${escapeHtml(v.title)}</strong>
+        <a href="#" class="dd-quote-ts" data-id="${escapeHtml(v.video_id)}" data-sec="${sec}">▶ ${mm}:${ss}</a>
+      </div>
+      <div class="dd-quote-sub">${v.mentions} Erwähnungen · ${formatViews(v.views)} Views · ${v.date || ""}</div>
+    `;
+    item.querySelector(".dd-quote-ts").addEventListener("click", e => {
+      e.preventDefault();
+      openVideoAt(e.currentTarget.dataset.id, parseInt(e.currentTarget.dataset.sec));
+    });
+    root.appendChild(item);
+  });
 }
 
 // === Timeline ===

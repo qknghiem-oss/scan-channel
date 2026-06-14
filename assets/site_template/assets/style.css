@@ -1312,6 +1312,25 @@ body {
   font-weight: 700; font-family: 'JetBrains Mono', monospace;
 }
 
+/* Dashboard Panel Sub-Label */
+.dd-panel-sub { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-left: 6px; }
+
+/* Zitate-Karussell */
+.dd-quote-item {
+  padding: 12px 16px; border: 1px solid var(--border);
+  border-left: 3px solid var(--cat-agents);
+  border-radius: var(--radius-sm); margin-bottom: 8px;
+  background: var(--bg-input);
+}
+.dd-quote-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.dd-quote-meta strong { font-size: 13px; flex: 1; }
+.dd-quote-ts {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--cat-claude); text-decoration: none; white-space: nowrap;
+}
+.dd-quote-ts:hover { text-decoration: underline; }
+.dd-quote-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
 /* Deep-Dive-Button im Konzept-Modal */
 .dd-start-btn {
   display: inline-flex; align-items: center; gap: 8px;

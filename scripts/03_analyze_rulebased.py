@@ -14,8 +14,18 @@ from pathlib import Path
 INPUT = Path(__file__).parent.parent / "data" / "videos_full.json"
 OUTPUT = Path(__file__).parent.parent / "data" / "knowledge_graph.json"
 
-# === Bekannte Entitäten ===
-KNOWN_PEOPLE = [
+# === Bekannte Entitäten — aus channel.config.json oder Everlast-Fallback ===
+_CONFIG_FILE = Path(__file__).parent.parent / "channel.config.json"
+_CONFIG = {}
+if _CONFIG_FILE.exists():
+    try:
+        _CONFIG = json.load(open(_CONFIG_FILE, encoding="utf-8"))
+    except Exception:
+        pass
+
+_ENTITIES = _CONFIG.get("known_entities", {})
+
+KNOWN_PEOPLE = _ENTITIES.get("people") or [
     "Leonard Schmedding", "Dario Amodei", "Sam Altman", "Elon Musk",
     "Joscha Bach", "Daniel Cremers", "Sven Gabor Janszky", "Frank Sieren",
     "Lars Hinrichs", "Niels Birbaumer", "Adrian Locher", "Alois Knoll",
@@ -26,7 +36,7 @@ KNOWN_PEOPLE = [
     "Mark Müller", "Oliver Trabert", "Dr. Johann Rehberger",
 ]
 
-KNOWN_TOOLS = [
+KNOWN_TOOLS = _ENTITIES.get("tools") or [
     "Claude Code", "Claude Opus", "Claude Sonnet", "Claude Haiku",
     "ChatGPT", "GPT-5.5", "GPT-5", "Codex", "Cursor", "Copilot",
     "Gemini", "Gemma", "Llama", "Mistral",
@@ -38,15 +48,15 @@ KNOWN_TOOLS = [
     "Mythos", "Spud", "Kairos", "Goal",
 ]
 
-KNOWN_COMPANIES = [
+KNOWN_COMPANIES = _ENTITIES.get("companies") or [
     "Anthropic", "OpenAI", "Google", "Microsoft", "Meta", "Apple",
     "Tesla", "xAI", "Nvidia", "Huawei", "Alibaba",
-    "Everlast AI", "Anthropic", "Mistral", "DeepMind",
+    "Everlast AI", "Mistral", "DeepMind",
     "Octonomy AI", "Invitris AI", "Mirelo AI", "goodBytz", "Neura Robotics",
     "Terafab", "Browser Use", "Odyssey",
 ]
 
-KNOWN_CONCEPTS = [
+KNOWN_CONCEPTS = _ENTITIES.get("concepts") or [
     "Knowledge Graph", "RAG", "Embedding", "Fine-Tuning", "Prompt",
     "Agent", "Agentic Workflows", "Subagents", "Managed Agents", "Hive Mind",
     "Vibe Coding", "Agentic Coding",
