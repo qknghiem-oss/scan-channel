@@ -1856,6 +1856,7 @@ function bindPerVideoTabs() {
 function bindUsecaseSearch() {
   const input = document.getElementById("usecase-input");
   const btn   = document.getElementById("usecase-btn");
+  if (!input || !btn) return;
   const resultsDiv = document.getElementById("usecase-results");
 
   async function runSearch() {
